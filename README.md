@@ -262,6 +262,11 @@ Headers:
   "status": "Pending"
 }
 ```
+**Notes**
+- `transactionDate` → format **YYYY-MM-DD**  
+- `accountNumber` → digits only  
+- `amount` → numeric value  
+- `status` → randomly assigned (`Pending`, `Settled`, or `Failed`)  
 
 
 
