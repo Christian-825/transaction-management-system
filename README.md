@@ -167,21 +167,119 @@ Response:
 ## **Testing**  
 
 ### 1. Manual Testing  
-- Start both backend and frontend.  
+- Start both backend and frontend.
+   - Backend: open a terminal, go to the `server` folder, run `npm start`.  
+   - Frontend: open another terminal, go to the `client` folder, run `npm run dev`.
 - Open `http://localhost:5173` in a browser.  
 - Use the form to add a transaction → confirm it appears in the list.  
 - Refresh the page → confirm transactions are still loaded from the backend.  
 
-### 2. API Testing with Postman or curl  
+### 2. Transactions API – Postman Testing Guide
 
-Run backend only and test endpoints:  
-
+## 1. Start the Backend
 ```bash
-# Get all transactions
-curl http://localhost:5000/transactions
+npm start
+```
+```bash
+node server.js
+```
 
-# Add a new transaction
-curl -X POST http://localhost:5000/transactions \
-  -H "Content-Type: application/json" \
-  -d '{"transactionDate":"2023-09-08","accountNumber":"123456789","accountHolder":"Alice","amount":250}'
+## Base URL
+```
+http://localhost:4000
+```
+
+---
+
+## 2. GET /transactions
+**Request**
+```
+Method: GET
+URL: http://localhost:4000/transactions
+```
+
+**Postman Steps**
+```
+1. Open Postman and create a new request.
+2. Set method to GET.
+3. Enter http://localhost:4000/transactions as the URL.
+4. Click Send.
+```
+
+**Example Response**
+```json
+[
+  {
+    "transactionDate": "2023-09-08",
+    "accountNumber": "123456789",
+    "accountHolder": "Alice",
+    "amount": "250.00",
+    "status": "Settled"
+  }
+]
+```
+
+---
+
+## 3. POST /transactions
+**Request**
+```
+Method: POST
+URL: http://localhost:5000/transactions
+Headers:
+  Content-Type: application/json
+```
+
+**Body (raw → JSON)**
+```json
+{
+  "transactionDate": "2023-09-08",
+  "accountNumber": "123456789",
+  "accountHolder": "Alice",
+  "amount": 250
+}
+```
+
+**Postman Steps**
+```
+1. Create a new request in Postman.
+2. Set method to POST.
+3. Enter http://localhost:4000/transactions as the URL.
+4. Go to Body → select raw → choose JSON.
+5. Paste the JSON payload above.
+6. Click Send.
+```
+
+**Example Response**
+```json
+{
+  "transactionDate": "2023-09-08",
+  "accountNumber": "123456789",
+  "accountHolder": "Alice",
+  "amount": "250.00",
+  "status": "Pending"
+}
+```
+
+---
+
+## 4. Invalid Example (Extra Field)
+**Request Body**
+```json
+{
+  "transactionDate": "2023-09-08",
+  "accountNumber": "123456789",
+  "accountHolder": "Alice",
+  "amount": 250,
+  "status": "Settled"
+}
+```
+
+**Example Response**
+```json
+{
+  "message": "Unexpected fields: status"
+}
+```
+
 
