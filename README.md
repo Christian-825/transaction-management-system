@@ -225,7 +225,7 @@ URL: http://localhost:4000/transactions
 **Request**
 ```
 Method: POST
-URL: http://localhost:5000/transactions
+URL: http://localhost:4000/transactions
 Headers:
   Content-Type: application/json
 ```
