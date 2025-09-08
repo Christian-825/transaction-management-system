@@ -2,17 +2,28 @@
 
 ## **Prerequisites**  
 
-Before you begin, install the following software:  
+Before you begin, make sure the following software is installed on your computer:  
 
-- [Node.js](https://nodejs.org/) **v18.x** or later  
-- [npm](https://www.npmjs.com/) **v9.x** or later (comes with Node.js)  
-- A code editor such as [Visual Studio Code](https://code.visualstudio.com/)  
-- Git (optional, if you want to clone a repository instead of downloading ZIPs)  
+- [**Node.js**](https://nodejs.org/) **v18.x** or later  
+  - Node.js includes **npm** (Node Package Manager).  
+  - You will use `npm` to download and install dependencies.  
+- [**npm**](https://www.npmjs.com/) **v9.x** or later (automatically installed with Node.js).  
+- A code editor such as [**Visual Studio Code**](https://code.visualstudio.com/).  
+- **Git** (optional).  
+  - You only need Git if you want to *clone* a project from GitHub.  
+  - It is **not required** if you already have the project as a ZIP file.  
 
-Check versions:  
+### Checking your installation  
+Open your operating system’s terminal:  
+- **Windows:** Command Prompt (`cmd`) or PowerShell  
+- **macOS:** Terminal (found in Applications → Utilities)  
+- **Linux:** Terminal (varies by distribution)  
+
+Run the following commands to verify installation:  
+
 ```bash
-node -v
-npm -v
+node -v   # should print a version number like v18.x.x or v20.x.x
+npm -v    # should print a version number like 9.x.x
 ```  
 
 ---
@@ -50,21 +61,23 @@ This installs all required packages listed in each `package.json`.
 
 ## **Configuration**  
 
-The backend requires environment variables defined in a `.env` file.  
-Since `.env` is not included, you need to create it manually.  
+The backend uses environment variables defined in a `.env` file.  
 
-1. Navigate to the `server/` folder.  
-2. Create a file named `.env`.  
-3. Add the following content:  
+- A `.env` file is **included** in the `server/` folder for convenience.  
+- It contains the following content by default:  
 
 ```
-PORT=5000
+PORT=4000
 ```
 
 - `PORT` → sets the backend server port.  
 
+> ⚠️ Note: In most projects, `.env` files are **not included** in the repository for security reasons. Normally, you would create it manually.  
+
 No additional configuration is required for the frontend.  
 
+> ⚠️ You can edit the `PORT` value in the `.env` file if you want the backend to run on a different port.
+ 
 ---
 
 ## **Running the Application**  
@@ -78,7 +91,7 @@ npm start
 
 The backend will run at:  
 ```
-http://localhost:5000
+http://localhost:4000
 ```  
 
 ### Start the Frontend (Client)  
@@ -103,7 +116,7 @@ The backend provides REST API endpoints for managing transactions.
 
 ### Base URL  
 ```
-http://localhost:5000/api/transactions
+http://localhost:4000/api/transactions
 ```  
 
 ### Endpoints  
@@ -115,10 +128,11 @@ Example response:
 ```json
 [
   {
-    "id": 1,
-    "description": "Coffee",
-    "amount": -3.5,
-    "date": "2023-09-08"
+    "transactionDate": "2023-09-08",
+    "accountNumber": "123456789",
+    "accountHolder": "John Doe",
+    "amount": "100.00",
+    "status": "Pending"
   }
 ]
 ```  
@@ -129,54 +143,134 @@ Example response:
 Request body:  
 ```json
 {
-  "description": "Groceries",
-  "amount": -50,
-  "date": "2023-09-08"
+  "transactionDate": "2023-09-08",
+  "accountNumber": "123456789",
+  "accountHolder": "John Doe",
+  "amount": 100
 }
 ```  
 
 Response:  
 ```json
 {
-  "id": 2,
-  "description": "Groceries",
-  "amount": -50,
-  "date": "2023-09-08"
+  "transactionDate": "2023-09-08",
+  "accountNumber": "123456789",
+  "accountHolder": "John Doe",
+  "amount": "100.00",
+  "status": "Settled"
 }
 ```  
-
-#### 3. Delete a transaction  
-**DELETE** `/api/transactions/:id`  
-
-Example:  
-```
-DELETE /api/transactions/2
-```  
-
-Response:  
-```json
-{ "message": "Transaction deleted successfully" }
-```  
-
+- `transactionDate` must follow the format **YYYY-MM-DD**  
+- `accountNumber` must contain only digits  
+- `amount` must be a valid number  
+- `status` is randomly assigned (`Pending`, `Settled`, or `Failed`)  
 ---
 
 ## **Testing**  
 
 ### 1. Manual Testing  
-- Start both backend and frontend.  
+- Start both backend and frontend.
+   - Backend: open a terminal, go to the `server` folder, run `npm start`.  
+   - Frontend: open another terminal, go to the `client` folder, run `npm run dev`.
 - Open `http://localhost:5173` in a browser.  
-- Add a transaction → confirm it shows in the list.  
-- Delete a transaction → confirm it disappears.  
+- Use the form to add a transaction → confirm it appears in the list.  
+- Refresh the page → confirm transactions are still loaded from the backend.  
 
-### 2. API Testing with Postman or curl  
-Run backend only and test endpoints:  
+### 2. Transactions API – Postman Testing Guide
 
+#### 1. Start the Backend
 ```bash
-# Get all transactions
-curl http://localhost:5000/api/transactions
+npm start
+```
+```bash
+node server.js
+```
 
-# Add a new transaction
-curl -X POST http://localhost:5000/api/transactions   -H "Content-Type: application/json"   -d '{"description":"Books","amount":-20,"date":"2023-09-08"}'
-```  
+## Base URL
+```
+http://localhost:4000
+```
 
 ---
+
+#### 2. GET /transactions
+**Request**
+```
+Method: GET
+URL: http://localhost:4000/transactions
+```
+
+**Postman Steps**
+```
+1. Open Postman and create a new request.
+2. Set method to GET.
+3. Enter http://localhost:4000/transactions as the URL.
+4. Click Send.
+```
+
+**Example Response**
+```json
+[
+  {
+    "transactionDate": "2023-09-08",
+    "accountNumber": "123456789",
+    "accountHolder": "Alice",
+    "amount": "250.00",
+    "status": "Settled"
+  }
+]
+```
+
+---
+
+#### 3. POST /transactions
+**Request**
+```
+Method: POST
+URL: http://localhost:4000/transactions
+Headers:
+  Content-Type: application/json
+```
+
+**Body (raw → JSON)**
+```json
+{
+  "transactionDate": "2023-09-08",
+  "accountNumber": "123456789",
+  "accountHolder": "Alice",
+  "amount": 250
+}
+```
+
+**Postman Steps**
+```
+1. Create a new request in Postman.
+2. Set method to POST.
+3. Enter http://localhost:4000/transactions as the URL.
+4. Go to Body → select raw → choose JSON.
+5. Paste the JSON payload above.
+6. Click Send.
+```
+
+**Example Response**
+```json
+{
+  "transactionDate": "2023-09-08",
+  "accountNumber": "123456789",
+  "accountHolder": "Alice",
+  "amount": "250.00",
+  "status": "Pending"
+}
+```
+**Notes**
+- `transactionDate` → format **YYYY-MM-DD**  
+- `accountNumber` → digits only
+- `accountHolder` → name of the account holder
+- `amount` → numeric value  
+- `status` → randomly assigned (`Pending`, `Settled`, or `Failed`)  
+
+
+
+
+
+
