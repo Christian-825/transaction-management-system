@@ -261,25 +261,8 @@ Headers:
 }
 ```
 
----
 
-#### 4. Invalid Example (Extra Field)
-**Request Body**
-```json
-{
-  "transactionDate": "2023-09-08",
-  "accountNumber": "123456789",
-  "accountHolder": "Alice",
-  "amount": 250,
-  "status": "Settled"
-}
-```
 
-**Example Response**
-```json
-{
-  "message": "Unexpected fields: status"
-}
-```
+
 
 
