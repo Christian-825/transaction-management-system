@@ -176,7 +176,7 @@ Response:
 
 ### 2. Transactions API – Postman Testing Guide
 
-## 1. Start the Backend
+#### 1. Start the Backend
 ```bash
 npm start
 ```
@@ -191,7 +191,7 @@ http://localhost:4000
 
 ---
 
-## 2. GET /transactions
+#### 2. GET /transactions
 **Request**
 ```
 Method: GET
@@ -221,7 +221,7 @@ URL: http://localhost:4000/transactions
 
 ---
 
-## 3. POST /transactions
+#### 3. POST /transactions
 **Request**
 ```
 Method: POST
@@ -263,7 +263,7 @@ Headers:
 
 ---
 
-## 4. Invalid Example (Extra Field)
+#### 4. Invalid Example (Extra Field)
 **Request Body**
 ```json
 {
