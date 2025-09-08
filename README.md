@@ -265,7 +265,7 @@ Headers:
 **Notes**
 - `transactionDate` → format **YYYY-MM-DD**  
 - `accountNumber` → digits only
-- `accountHolder` → full name of the account holder
+- `accountHolder` → name of the account holder
 - `amount` → numeric value  
 - `status` → randomly assigned (`Pending`, `Settled`, or `Failed`)  
 
