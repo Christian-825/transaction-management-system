@@ -61,12 +61,10 @@ This installs all required packages listed in each `package.json`.
 
 ## **Configuration**  
 
-The backend requires environment variables defined in a `.env` file.  
-Since `.env` is not included, you need to create it manually.  
+The backend uses environment variables defined in a `.env` file.  
 
-1. Navigate to the `server/` folder.  
-2. Create a file named `.env`.  
-3. Add the following content:  
+- A `.env` file is **included** in the `server/` folder for convenience.  
+- It contains the following content by default:  
 
 ```
 PORT=4000
@@ -74,8 +72,12 @@ PORT=4000
 
 - `PORT` → sets the backend server port.  
 
+> ⚠️ Note: In most projects, `.env` files are **not included** in the repository for security reasons. Normally, you would create it manually.  
+
 No additional configuration is required for the frontend.  
 
+> ⚠️ You can edit the `PORT` value in the `.env` file if you want the backend to run on a different port.
+ 
 ---
 
 ## **Running the Application**  
